@@ -3,13 +3,11 @@ import crypto from 'crypto';
 import models from '../database/models';
 import {comparePassword, hashPassword,jwtToken } from '../utils/jwToken';
 
-const { book } = models;
-
-export default class Book {
-  
+const { Book} = models;
+export default class Books {
   static async getBooks(req, res) {
     try {
-      return book.findAll().then((info) => {
+      return Book.findAll().then((info) => {
         res.status(200).send(info);
       });
     } catch (error) {
@@ -17,4 +15,11 @@ export default class Book {
       res.status(500).send(error);
     }
   }
+  static async viewBook(req,res){
+    const { Book_id } = req.params;
+      return Book.findOne({ where: { Book_id } }).then((book) => {
+			res.status(200).send(book);
+		});
+
+}
 }
